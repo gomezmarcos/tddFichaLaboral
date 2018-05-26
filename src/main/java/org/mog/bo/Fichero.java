@@ -99,4 +99,8 @@ public class Fichero {
                 .sorted(Comparator.comparing(Ficha::getDate))
                 .collect(Collectors.toList());
     }
+
+    public List<Ficha> getAllFichas() {
+        return ficheroRepo.findAll();
+    }
 }

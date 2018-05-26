@@ -5,7 +5,7 @@ import org.mog.bo.Ficha;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FicherRepoStub implements FicheroRepo {
+public class FicheroRepoStub implements FicheroRepo {
     List<Ficha> baseDatos = new ArrayList();
     @Override
     public void persistir(Ficha ficha) {

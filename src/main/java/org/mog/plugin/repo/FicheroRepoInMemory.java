@@ -2,21 +2,17 @@ package org.mog.plugin.repo;
 
 import org.mog.bo.Ficha;
 import org.mog.plugin.repo.entity.FichaPersistente;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-@Service
 public class FicheroRepoInMemory implements FicheroRepo {
     private FicheroRepoInMemoryCrud fichaCrudRepo;
 
     public FicheroRepoInMemory() {
     }
 
-    @Autowired
     public FicheroRepoInMemory(FicheroRepoInMemoryCrud repo) {
         this.fichaCrudRepo = repo;
     }
@@ -24,7 +20,7 @@ public class FicheroRepoInMemory implements FicheroRepo {
     @Override
     public void persistir(Ficha ficha) {
         FichaPersistente f = map(ficha);
-        fichaCrudRepo.save(f);
+        //fichaCrudRepo.save(f);
     }
 
     private FichaPersistente map(Ficha ficha) {
@@ -45,9 +41,10 @@ public class FicheroRepoInMemory implements FicheroRepo {
 
     @Override
     public List<Ficha> findAll() {
-        return StreamSupport.stream(fichaCrudRepo.findAll().spliterator(), false)
-                .map(f -> map(f))
-                .collect(Collectors.toList());
+        //return StreamSupport.stream(fichaCrudRepo.findAll().spliterator(), false)
+         //       .map(f -> map(f))
+          //      .collect(Collectors.toList());
+        return null;
 
     }
 }

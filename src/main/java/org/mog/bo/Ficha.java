@@ -57,4 +57,9 @@ public class Ficha {
     public void setSid(String sid) {
         this.sid = sid;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s : {'date':%s, 'time':%s, 'type':%s}", sid, date, time,type);
+    }
 }

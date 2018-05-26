@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.mog.bo.Fichero;
 import org.mog.conf.Utilitario;
 import org.mog.plugin.fe.fichero.FrontEndFicheroAdapter;
-import org.mog.plugin.repo.FicherRepoStub;
+import org.mog.plugin.repo.FicheroRepoStub;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -26,10 +26,10 @@ public class TareasRegistrablesStubTest {
 
     @Before
     public void setUp(){
-        FicherRepoStub ficherRepoStub = new FicherRepoStub();
+        FicheroRepoStub ficherRepoStub = new FicheroRepoStub();
         Utilitario.myContainer().save("ficheroRepo", ficherRepoStub);
         Utilitario.myContainer().save("fichero", new Fichero(ficherRepoStub));
-        api = new FrontEndFicheroAdapter((Fichero) Utilitario.myContainer().find("fichero"));
+        api = new FrontEndFicheroAdapter(new Fichero(new FicheroRepoStub()));
     }
 
     @Test

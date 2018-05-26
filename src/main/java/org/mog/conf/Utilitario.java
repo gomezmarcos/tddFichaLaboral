@@ -1,21 +1,13 @@
 package org.mog.conf;
 
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
+public class Utilitario {
 
-@Component
-public class Utilitario implements ApplicationContextAware {
-
-    private static ApplicationContext ac;
+    private static MyContainer container = null;
 
     public static MyContainer myContainer(){
-        return new MyContainer(ac);
+        if (container == null)
+            container = new MyContainer();
+        return container;
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.ac = applicationContext;
-    }
 }

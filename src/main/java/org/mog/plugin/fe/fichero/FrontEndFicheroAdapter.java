@@ -2,7 +2,6 @@ package org.mog.plugin.fe.fichero;
 
 import org.mog.bo.Ficha;
 import org.mog.bo.Fichero;
-import org.mog.conf.Utilitario;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -16,19 +15,18 @@ public class FrontEndFicheroAdapter {
     private Fichero fichero;
 
     public FrontEndFicheroAdapter(Fichero fichero){
-        //fichero = (Fichero) Utilitario.myContainer().find("fichero");
         this.fichero = fichero;
     }
 
-    public void ficharIngreso(String empleado, String hoy, String of) {
-        String[] date = hoy.split("-");
-        Integer day = new Integer( date[2]);
-        Integer month = new Integer( date[1]);
-        Integer year = new Integer( date[0]);
+    public void ficharIngreso(String empleado, String date, String time) {
+        String[] datee = date.split("-");
+        Integer day = new Integer( datee[2]);
+        Integer month = new Integer( datee[1]);
+        Integer year = new Integer( datee[0]);
 
-        String[] time = of.split(":");
-        Integer hour = new Integer(time[0]);
-        Integer minutes = new Integer(time[1]);
+        String[] timee = time.split(":");
+        Integer hour = new Integer(timee[0]);
+        Integer minutes = new Integer(timee[1]);
 
         fichero.ficharIngreso(empleado, LocalDate.of(year,month,day), LocalTime.of(hour,minutes));
     }
@@ -42,7 +40,7 @@ public class FrontEndFicheroAdapter {
         String[] time = of.split(":");
         Integer hour = new Integer(time[0]);
         Integer minutes = new Integer(time[1]);
-        fichero.ficharIngreso(empleado, LocalDate.of(year,month,day), LocalTime.of(hour,minutes));
+        fichero.ficharEgreso(empleado, LocalDate.of(year,month,day), LocalTime.of(hour,minutes));
     }
 
     public String horasTrabajadas(String empleado, String hoy) {
@@ -101,5 +99,9 @@ public class FrontEndFicheroAdapter {
 
     public List<Ficha> fichasRealizadas(String sid) {
         return fichero.getAllFichas(sid);
+    }
+
+    public List<Ficha> findAll(){
+        return fichero.getAllFichas();
     }
 }
