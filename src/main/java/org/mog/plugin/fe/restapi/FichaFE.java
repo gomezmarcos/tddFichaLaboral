@@ -1,10 +1,10 @@
-package org.mog.plugin.fe.fichero;
+package org.mog.plugin.fe.restapi;
 
 import org.mog.bo.Ficha;
 
 import java.time.format.DateTimeFormatter;
 
-public class FichaFE {
+public class FichaFE  {
     public String time;
     public String date;
     public String sid;

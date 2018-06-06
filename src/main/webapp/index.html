@@ -1,1 +1,108 @@
-<h1>hola mundo oouuou</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+    <h1>Fichas - Increible App</h1>
+    <ul id="fichas"></ul>
+</body>
+
+<div id="root"></div>
+<div id="table"></div>
+
+<script type="text/babel">
+
+  ReactDOM.render(
+    <h1>Hola Mundo! - Fichas!</h1>,
+    document.getElementById('root')
+  );
+
+  const Ficha = (props) => {
+    return (
+      <div>
+        <img width="75" src="https://avatars.githubusercontent.com/u/8445?v=3" />
+        <div style={{display:'inline-block', marginLeft:10}}>
+          <div style={{color:'red'}}>{props.sid}</div>
+          <div>{props.date}</div>
+          <div>{props.time}</div>
+        </div>
+      </div>
+    );
+  }
+
+  const FichaList = (props) => {
+    return (
+      <div>
+        {props.fichas.map(f=> <Ficha {...f}/> ) }
+      </div>
+    )
+  }
+
+  class Form extends React.Component {
+    render() {
+      return (
+        <form>
+          <input type="text" placeholder="sid..."/>
+          <input type="text" placeholder="type (INGRESO/EGRESO)..."/>
+          <input type="text" placeholder="date..."/>
+          <input type="text" placeholder="time..."/>
+          <button type="submit">Fichar</button>
+        </form>
+      );
+    }
+  }
+
+  class App extends React.Component {
+    state = {
+      fichas: [
+        {"key":100, "sid":"30321", "time":"20:10", "date":"2018-01-10", "type":"INGRESO"},
+        {"key":110, "sid":"30322", "time":"20:10", "date":"2018-01-10", "type":"INGRESO"},
+        {"key":120, "sid":"30323", "time":"20:10", "date":"2018-01-10", "type":"INGRESO"}
+      ]
+    };
+
+    render() {
+      return (
+        <div>
+          <Form />
+          <FichaList fichas={this.state.fichas} />
+        </div>
+      )
+    }
+  }
+
+  ReactDOM.render(<App />, table);
+
+  function createNode(element) {
+    return document.createElement(element);
+  }
+
+  function append(parent, el) {
+    return parent.appendChild(el);
+  }
+
+  const ul = document.getElementById('fichas');
+  const url = 'http://localhost:8080/list';
+
+  fetch(url)
+    .then(r=> r.json())
+    .then(function(d){
+            d.map(function(r){
+              let li = createNode('li');
+              let span = createNode('span');
+              span.innerHTML = `${r.sid} ${r.type} ${r.date} ${r.time}`;
+              append(li, span);
+              append(ul, li);
+            });
+          })
+    .catch(function(error) {
+             console.log(JSON.stringify(error));
+           });
+    </script>
+</body>
+</html>

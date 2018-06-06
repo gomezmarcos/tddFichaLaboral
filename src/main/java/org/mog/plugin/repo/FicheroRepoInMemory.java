@@ -4,8 +4,6 @@ import org.mog.bo.Ficha;
 import org.mog.plugin.repo.entity.FichaPersistente;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 public class FicheroRepoInMemory implements FicheroRepo {
     private FicheroRepoInMemoryCrud fichaCrudRepo;
@@ -18,9 +16,11 @@ public class FicheroRepoInMemory implements FicheroRepo {
     }
 
     @Override
-    public void persistir(Ficha ficha) {
+    public Ficha persistir(Ficha ficha) {
         FichaPersistente f = map(ficha);
         //fichaCrudRepo.save(f);
+        return null;
+
     }
 
     private FichaPersistente map(Ficha ficha) {

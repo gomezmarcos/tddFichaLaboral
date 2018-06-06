@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mog.bo.Fichero;
 import org.mog.conf.Utilitario;
-import org.mog.plugin.fe.fichero.FrontEndFicheroAdapter;
+import org.mog.plugin.fe.restapi.FrontEndFicheroAdapter;
 import org.mog.plugin.repo.FicheroRepoStub;
 
 import java.time.LocalDate;

@@ -5,7 +5,10 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Fichero {
@@ -15,7 +18,7 @@ public class Fichero {
 
     private FicheroRepo ficheroRepo;
 
-    public Fichero(FicheroRepo ficherRepo){
+    public Fichero(FicheroRepo ficherRepo) {
         this.ficheroRepo = ficherRepo;
     }
 
@@ -29,13 +32,13 @@ public class Fichero {
                 .orElseThrow(() -> new RuntimeException(FICHA_INEXISTENTE));
     }
 
-    public void ficharIngreso(String empleado, LocalDate date, LocalTime time) {
-        ficheroRepo.persistir(new Ficha(Fichero.INGRESO, empleado, date, time));
+    public Ficha ficharIngreso(String empleado, LocalDate date, LocalTime time) {
+        return ficheroRepo.persistir(new Ficha(Fichero.INGRESO, empleado, date, time));
     }
 
 
-    public void ficharEgreso(String empleado, LocalDate hoy, LocalTime of) {
-        ficheroRepo.persistir(new Ficha(Fichero.EGRESO, empleado, hoy, of));
+    public Ficha ficharEgreso(String empleado, LocalDate hoy, LocalTime of) {
+        return ficheroRepo.persistir(new Ficha(Fichero.EGRESO, empleado, hoy, of));
     }
 
     public LocalTime horasTrabajadas(String empleado, LocalDate hoy) {
