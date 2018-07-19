@@ -14,13 +14,8 @@
 
 <div id="root"></div>
 <div id="table"></div>
-
+<div id="pokeContainer"></div>
 <script type="text/babel">
-
-  ReactDOM.render(
-    <h1>Hola Mundo! - Fichas!</h1>,
-    document.getElementById('root')
-  );
 
   const Ficha = (props) => {
     return (
@@ -38,6 +33,7 @@
   const FichaList = (props) => {
     return (
       <div>
+      <h3>Fichas</h3>
         {props.fichas.map(f=> <Ficha {...f}/> ) }
       </div>
     )
@@ -46,13 +42,81 @@
   class Form extends React.Component {
     render() {
       return (
+      <div>
+        <h3>Ingresar Ficha</h3>
         <form>
-          <input type="text" placeholder="sid..."/>
+          <input type="text" id="sid" placeholder="sid..." value="pikachu" />
           <input type="text" placeholder="type (INGRESO/EGRESO)..."/>
           <input type="text" placeholder="date..."/>
           <input type="text" placeholder="time..."/>
           <button type="submit">Fichar</button>
         </form>
+        </div>
+      );
+    }
+  }
+
+    const PokeCard = (p) => {
+      return (
+        <div style={{display:'inline-block', marginLeft:10}}>
+          <img width="100" src={p.sprites.front_default} />
+          <div style={{display:'inline-block', marginLeft:10}}>
+            <div>Nombre: {p.name}</div>
+            <div>Peso: {p.weight}kg</div>
+            <div>Altura: {p.height}mts</div>
+            <div>Exp: {p.base_experience}</div>
+          </div>
+        </div>
+      );
+    }
+
+    const PokeList = (props) => {
+      return (
+        <div >
+          <h5>Pokemons</h5>
+            {props.pokemons.map( ( p ) => <PokeCard key={p.name} {...p}/> ) }
+        </div>
+      );
+    }
+
+    const PokeResultList = (props) => {
+      return (
+        <div >
+          <PokeList pokemons={ props.pokes } />
+          <span onClick={ () => props.aa()} >Agregar Pokemon</span>
+        </div>
+      );
+    }
+
+  class PokeForm extends React.Component {
+    state = {
+      pp:[],
+    };
+
+    test = (pokeName) => {
+      var pid = document.getElementById("pokeName").value;
+      fetch(purl + pid + "/")
+        .then( (r) => r.json() )
+        .then( (d) => {
+          this.setState({pp: [d]});
+        }).catch(function(error) {
+          console.log(error);
+        });
+    }
+
+    aa = (p) => {
+      console.log('asdf');
+    }
+
+    render() {
+      return (
+        <div>
+            <form>
+                <input type="text" id="pokeName" placeholder="Pokemon name"/>
+                <span onClick={ () => this.test(this)} >Buscar Pokemon</span>
+                <PokeResultList pokes={this.state.pp} />
+            </form>
+        </div>
       );
     }
   }
@@ -63,17 +127,43 @@
         {"key":100, "sid":"30321", "time":"20:10", "date":"2018-01-10", "type":"INGRESO"},
         {"key":110, "sid":"30322", "time":"20:10", "date":"2018-01-10", "type":"INGRESO"},
         {"key":120, "sid":"30323", "time":"20:10", "date":"2018-01-10", "type":"INGRESO"}
+      ],
+      pokemons: [
+      ],
+      pokes: [
       ]
     };
 
+
+    findAll = (pokeId) => {
+      let ppurl = "https://pokeapi.co/api/v2/pokemon/";
+      let pids = [10,20,30,40,50];
+      this.setState( {pokemons: [] } );
+      pids.map( ( pid,i ) => {
+      pid = Math.floor(pid + Math.random() * 10) ;
+      fetch(ppurl + pid + "/")
+        .then( (r) => r.json() )
+        .then( (d) => {
+          this.setState( {pokemons: [...this.state.pokemons, d ]} );
+        }).catch(function(error) {
+          console.log(error);
+        });
+      });
+    }
+
     render() {
       return (
+        <h1>Hola Mundo! - Fichas!</h1>,
         <div>
           <Form />
           <FichaList fichas={this.state.fichas} />
+          <PokeList pokemons={this.state.pokemons} />
+          <PokeForm pokes={this.state.pokes} />
+          <a className="btn"  onClick={ () => this.findAll()} >Listar</a>
         </div>
       )
     }
+
   }
 
   ReactDOM.render(<App />, table);
@@ -86,13 +176,15 @@
     return parent.appendChild(el);
   }
 
+
   const ul = document.getElementById('fichas');
   const url = 'http://localhost:8080/list';
+  const purl = "https://pokeapi.co/api/v2/pokemon/";
 
   fetch(url)
     .then(r=> r.json())
-    .then(function(d){
-            d.map(function(r){
+    .then((d) => {
+            d.map((r) => {
               let li = createNode('li');
               let span = createNode('span');
               span.innerHTML = `${r.sid} ${r.type} ${r.date} ${r.time}`;
